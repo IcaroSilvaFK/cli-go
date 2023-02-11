@@ -8,7 +8,7 @@ import (
 	"golang.org/x/exp/slices"
 )
 
-var rootCommand = &cobra.Command{
+var componentCommand = &cobra.Command{
 	Use:   "component",
 	Short: "Create a new React Component",
 	Long: `hey little stranger your component created successfully!`,
@@ -96,8 +96,11 @@ export const Container = styled.div
 
 func Execute() {
 
+	rootCommand := &cobra.Command{
+		Use:"rc",
+	}
 
-	rootCommand.AddCommand(PageCommand)
+	rootCommand.AddCommand(PageCommand,componentCommand)
 
 	err := rootCommand.Execute()
 	if err != nil {
