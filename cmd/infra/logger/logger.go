@@ -2,6 +2,6 @@ package logger
 
 import "log"
 
-func Logger(args ...interface{}) {
+func Log(args ...interface{}) {
 	log.Println(args...)
 }
