@@ -39,7 +39,6 @@ var HttpClient = &cobra.Command{
 
 		body, err := ioutil.ReadAll(resp.Body)		
 
-
 		if err != nil {
 			logger.Log("[ERROR]:body is invalid!😥")
 			return
