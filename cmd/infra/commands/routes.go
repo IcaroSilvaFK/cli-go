@@ -48,7 +48,7 @@ export function Router(){
 	return (
 		<BrowserRouter>
 			<Router>
-			`+strings.Join(allPages, "\n")+`
+					`+strings.Join(allPages, "\n")+`
 			</Router>
 		</BrowserRouter>
 	)

@@ -24,8 +24,14 @@ var HttpClient = &cobra.Command{
 		}
 
 		resp,err := http.Get(endpoint)
+		
 
+		if resp.StatusCode != http.StatusOK {
+			logger.Log("[ERROR]:request fail!😥")
+			return
+		}
 
+	
 		if err != nil {
 			logger.Log("[ERROR]:request fail!😥")
 			return
