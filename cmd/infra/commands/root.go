@@ -100,7 +100,7 @@ func Execute() {
 		Use:"rc",
 	}
 
-	rootCommand.AddCommand(PageCommand,componentCommand)
+	rootCommand.AddCommand(PageCommand,componentCommand,RouteCommand,HttpClient)
 
 	err := rootCommand.Execute()
 	if err != nil {
