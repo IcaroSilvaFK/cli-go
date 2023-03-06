@@ -11,102 +11,113 @@ import (
 var componentCommand = &cobra.Command{
 	Use:   "component",
 	Short: "Create a new React Component",
-	Long: `hey little stranger your component created successfully!`,
+	Long:  `hey little stranger your component created successfully!`,
 
 	Run: func(cmd *cobra.Command, args []string) {
-		
-		fs,err := os.ReadDir(".")
-		var  fileName =  args[1]
+
+		logger.Log(args[0])
+
+		fs, err := os.ReadDir(".")
+		var fileName = args[0]
 		var directories []string
+		var path []string
+
+		logger.Log(fileName)
 
 		if err != nil {
-			logger.Log("[ERROR]",err)
+			logger.Log("[ERROR]", err)
 			return
-		}	
-
-		for _,dir := range fs{
-			directories = append(directories, dir.Name())
 		}
 
-		//TODO add src direction of not exists
-		// if !slices.Contains(directories,"src"){
-		// 	err = os.Mkdir("src",os.ModePerm)
+		for _, dir := range fs {
+			directories = append(directories, dir.Name())
+			if dir.Name() == "src" {
+				path = append(path, dir.Name())
+			}
+		}
 
-		// 	if err != nil {
-		// 		logger.Log("[ERROR]",err)
-		// 		return
-		// 	}
+		logger.Log(directories)
+		logger.Log(path)
+
+		//TODO add src directory if not exists
+		if !slices.Contains(directories, "src") {
+			err = os.Mkdir("src", os.ModePerm)
+			path = append(path, "src")
+			if err != nil {
+				logger.Log("[ERROR]", err)
+				return
+			}
+		}
+
+		// if !slices.Contains(directories, "components") {
+		// 	// err = os.Mkdir("components", os.ModePerm)
+		// 	path = append(path, "components")
+		// 	// if err != nil {
+		// 	// 	logger.Log("[ERROR]", err)
+		// 	// 	return
+		// 	// }
 		// }
 
-		if !slices.Contains(directories,"components"){
-			err = os.Mkdir("components",os.ModePerm)
+		var absolutePath string
 
-			if err != nil {
-				logger.Log("[ERROR]",err)
-				return
-			}
+		for _, d := range path {
+			absolutePath = absolutePath + "/" + d
 		}
-		
 
-		err = os.MkdirAll("components/"+fileName,os.ModePerm)
+		err = os.MkdirAll("./"+absolutePath+"/components/"+fileName, os.ModePerm)
 
 		if err != nil {
-			logger.Log("[ERROR]",err)
+			logger.Log("[ERROR]", err)
 			return
 		}
 
-		file,err := os.Create("components/"+fileName+"/index.tsx")
-
-	
+		file, err := os.Create("./" + absolutePath + "/components/" + fileName + "/index.tsx")
 
 		if err != nil {
-			logger.Log("[ERROR]",err)
+			logger.Log("[ERROR]", err)
 			return
-		}	
-			
-			file.WriteString(`
-import {Container} from './style'
+		}
 
-export function `+fileName+`(){
-	return (
-		<Container>
-			<span>Hey little strange</span>
-		</Container>
-	)
-}
-`)
-			stylesFile,err := os.Create("components/"+fileName+"/styles.ts")
+		file.WriteString(`
+		import {Container} from './style'
 
-			if err != nil {
-				logger.Log("[ERROR]",err)
-				return
-			}
+		export function ` + fileName + `(){
+			return (
+				<Container>
+					<span>Hey little strange</span>
+				</Container>
+			)
+		}
+		`)
+		stylesFile, err := os.Create("./" + absolutePath + "/components/" + fileName + "/styles.ts")
 
-			stylesFile.WriteString(`
-import styled from 'styled-components'
+		if err != nil {
+			logger.Log("[ERROR]", err)
+			return
+		}
 
-export const Container = styled.div
-			`)
+		stylesFile.WriteString(`
+		import styled from 'styled-components'
 
-	
-		logger.Log("🚀",cmd.Long,"command executed success")
+		export const Container = styled.div
+					`)
+
+		logger.Log("🚀", cmd.Long, "command executed success")
 	},
 }
-
 
 func Execute() {
 
 	rootCommand := &cobra.Command{
-		Use:"rc",
+		Use: "rc",
 	}
 
-	rootCommand.AddCommand(PageCommand,componentCommand,RouteCommand,HttpClient)
+	rootCommand.AddCommand(PageCommand, componentCommand, RouteCommand, HttpClient)
 
 	err := rootCommand.Execute()
 	if err != nil {
 		os.Exit(1)
 	}
-
 
 }
 
