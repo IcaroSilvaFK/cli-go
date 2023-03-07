@@ -19,21 +19,22 @@ var RouteCommand = &cobra.Command{
 
 		var allPages []string
 
-		dirs,err := os.ReadDir("pages")
-
+		dirs,err := os.ReadDir("./src/pages")
+		
 		if err != nil {
 			logger.Log("[ERROR]",err)
 			return 
 		}
 
 		for _,dir := range dirs{
-			allPages = append(allPages, "\n<Route path='"+dir.Name()+"' component={<"+dir.Name()+"/>}/>")
+			allPages = append(allPages, "\n<Route path='/"+dir.Name()+"' element={<"+dir.Name()+"/>}/>")
 		}
 
 
-		os.MkdirAll("routes",os.ModePerm)
 
-		file, err := os.Create("routes/index.tsx")
+		os.MkdirAll("./src/routes",os.ModePerm)
+
+		file, err := os.Create("./src/routes/index.tsx")
 
 
 		if err != nil {

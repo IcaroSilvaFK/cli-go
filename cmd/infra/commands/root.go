@@ -31,7 +31,7 @@ var componentCommand = &cobra.Command{
 		}
 
 		file.WriteString(`
-		import {Container} from './style'
+		import {Container} from './styles'
 
 		export function ` + fileName + `(){
 			return (
