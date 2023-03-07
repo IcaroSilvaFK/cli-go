@@ -15,7 +15,7 @@ var RouteCommand = &cobra.Command{
 		✨🎉Generate router component! Update your Main.tsx
 	`,
 
-	Run: func (command *cobra.Command, args []string){
+	Run: func (command *cobra.Command, _ []string){
 
 		var allPages []string
 

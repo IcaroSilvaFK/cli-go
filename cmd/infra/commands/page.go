@@ -41,7 +41,7 @@ export function ` + fileName + `(){
 	)
 }
 `)
-		stylesFile, err := os.Create("./src/pages/" + fileName + "/styles")
+		stylesFile, err := os.Create("./src/pages/" + fileName + "/styles.ts")
 
 		if err != nil {
 			logger.Log("[ERROR]", err)
