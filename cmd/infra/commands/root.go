@@ -5,7 +5,6 @@ import (
 
 	"github.com/IcaroSilvaFK/cli-go/cmd/infra/logger"
 	"github.com/spf13/cobra"
-	"golang.org/x/exp/slices"
 )
 
 var componentCommand = &cobra.Command{
@@ -15,63 +14,16 @@ var componentCommand = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 
-		logger.Log(args[0])
-
-		fs, err := os.ReadDir(".")
 		var fileName = args[0]
-		var directories []string
-		var path []string
 
-		logger.Log(fileName)
+		err := os.MkdirAll("./src/components/"+fileName, os.ModePerm)
 
 		if err != nil {
 			logger.Log("[ERROR]", err)
 			return
 		}
 
-		for _, dir := range fs {
-			directories = append(directories, dir.Name())
-			if dir.Name() == "src" {
-				path = append(path, dir.Name())
-			}
-		}
-
-		logger.Log(directories)
-		logger.Log(path)
-
-		//TODO add src directory if not exists
-		if !slices.Contains(directories, "src") {
-			err = os.Mkdir("src", os.ModePerm)
-			path = append(path, "src")
-			if err != nil {
-				logger.Log("[ERROR]", err)
-				return
-			}
-		}
-
-		// if !slices.Contains(directories, "components") {
-		// 	// err = os.Mkdir("components", os.ModePerm)
-		// 	path = append(path, "components")
-		// 	// if err != nil {
-		// 	// 	logger.Log("[ERROR]", err)
-		// 	// 	return
-		// 	// }
-		// }
-
-		var absolutePath string
-
-		for _, d := range path {
-			absolutePath = absolutePath + "/" + d
-		}
-
-		err = os.MkdirAll("./"+absolutePath+"/components/"+fileName, os.ModePerm)
-
-		if err != nil {
-			logger.Log("[ERROR]", err)
-			return
-		}
-
-		file, err := os.Create("./" + absolutePath + "/components/" + fileName + "/index.tsx")
+		file, err := os.Create("./src/components/" + fileName + "/index.tsx")
 
 		if err != nil {
 			logger.Log("[ERROR]", err)
@@ -89,7 +41,7 @@ var componentCommand = &cobra.Command{
 			)
 		}
 		`)
-		stylesFile, err := os.Create("./" + absolutePath + "/components/" + fileName + "/styles.ts")
+		stylesFile, err := os.Create("./src/components/" + fileName + "/styles.ts")
 
 		if err != nil {
 			logger.Log("[ERROR]", err)
