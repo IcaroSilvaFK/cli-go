@@ -10,7 +10,7 @@ import (
 var PageCommand = &cobra.Command{
 	Use:   "page",
 	Short: "Create a new React Page",
-	Long:  `hey little stranger your page created successfully!`,
+	Long:  `🚀hey little stranger your page created successfully!`,
 
 	Run: func(cmd *cobra.Command, args []string) {
 
